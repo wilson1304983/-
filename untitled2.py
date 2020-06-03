@@ -74,3 +74,4 @@ while not done:
                 done = True
                 pause = False
 pg.quit()
+print("fuck")
