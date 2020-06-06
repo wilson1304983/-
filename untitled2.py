@@ -17,6 +17,7 @@ class BallSprite(pg.sprite.Sprite):
             self.yStep = -self.yStep
         if pg.sprite.spritecollideany(self, vert_walls):
             self.xStep = -self.xStep
+#分裂球的新Sprite
 class New_BallSprite(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -67,20 +68,21 @@ while not done:
                 done = True
             if (event.type == pg.KEYUP and event.key == pg.K_ESCAPE):
                 done = True
+            #分裂球 空白鍵
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
-                    new_ballu = New_BallSprite()
-                    new_ballu.rect.center = [ball.rect.x,ball.rect.y+10]
-                    new_ballu.xStep,new_ballu.yStep = (ball.xStep,ball.yStep)
                     new_balld = New_BallSprite()
-                    new_balld.rect.center = [ball.rect.x,ball.rect.y-10]
+                    new_balld.rect.center = [600,360]
                     new_balld.xStep,new_balld.yStep = (ball.xStep,-ball.yStep)
-                    balls = pg.sprite.Group(ball,new_ballu,new_balld)
+                    new_ballc = New_BallSprite()
+                    new_ballc.rect.center = [680,360]
+                    new_ballc.xStep,new_ballc.yStep = (ball.xStep,ball.yStep)
+                    balls = pg.sprite.Group(ball,new_balld,new_ballc)
                     sprites.add(balls)
+                #清除球 delete
                 if event.key == pg.K_DELETE:
                     for b in balls:
                         b.kill()
-                #加進群組
 #update game state
 #redraw
     screen.fill((0,0,0))
