@@ -70,18 +70,12 @@ while not done:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     new_ballu = New_BallSprite()
-                    new_ballu.rect.center = [ball.rect.x+10,ball.rect.y-20]
-                    new_ballu.xStep,new_ballu.yStep = (1,-1)
+                    new_ballu.rect.center = [ball.rect.x,ball.rect.y+10]
+                    new_ballu.xStep,new_ballu.yStep = (ball.xStep,ball.yStep)
                     new_balld = New_BallSprite()
-                    new_balld.rect.center = [ball.rect.x+20,ball.rect.y+10]
-                    new_balld.xStep,new_balld.yStep = (1,1)
-                    new_balll = New_BallSprite()
-                    new_balll.rect.center = [ball.rect.x-10,ball.rect.y-20]
-                    new_balll.xStep,new_ballu.yStep = (-1,-1)
-                    new_ballr = New_BallSprite()
-                    new_ballr.rect.center = [ball.rect.x-20,ball.rect.y+10]
-                    new_ballr.xStep,new_balld.yStep = (-1,1)
-                    balls = pg.sprite.Group(ball,new_ballu,new_balld,new_balll,new_ballr)
+                    new_balld.rect.center = [ball.rect.x,ball.rect.y-10]
+                    new_balld.xStep,new_balld.yStep = (ball.xStep,-ball.yStep)
+                    balls = pg.sprite.Group(ball,new_ballu,new_balld)
                     sprites.add(balls)
                 if event.key == pg.K_DELETE:
                     for b in balls:
