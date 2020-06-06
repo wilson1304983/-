@@ -17,6 +17,20 @@ class BallSprite(pg.sprite.Sprite):
             self.yStep = -self.yStep
         if pg.sprite.spritecollideany(self, vert_walls):
             self.xStep = -self.xStep
+class New_BallSprite(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pg.image.load('images/smallball.png')
+        self.rect = self.image.get_rect()
+        self.rect.center = [ball.rect.x,ball.rect.y]
+        self.xStep, self.yStep = (random.randint(-1,1),random.randint(-1,1))
+    def update(self):
+        self.rect.x += self.xStep
+        self.rect.y += self.yStep
+        if pg.sprite.spritecollideany(self, horiz_walls):
+            self.yStep = -self.yStep
+        if pg.sprite.spritecollideany(self, vert_walls):
+            self.xStep = -self.xStep
 class BlockSprite(pg.sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
@@ -53,9 +67,25 @@ while not done:
                 done = True
             if (event.type == pg.KEYUP and event.key == pg.K_ESCAPE):
                 done = True
-            if ball.rect.x: #觸發事件
-                new_ball = BallSprite()
-                new_ball.rect.center = [ball.rect.x,ball.rect.y]
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    new_ballu = New_BallSprite()
+                    new_ballu.rect.center = [ball.rect.x+10,ball.rect.y-20]
+                    new_ballu.xStep,new_ballu.yStep = (1,-1)
+                    new_balld = New_BallSprite()
+                    new_balld.rect.center = [ball.rect.x+20,ball.rect.y+10]
+                    new_balld.xStep,new_balld.yStep = (1,1)
+                    new_balll = New_BallSprite()
+                    new_balll.rect.center = [ball.rect.x-10,ball.rect.y-20]
+                    new_balll.xStep,new_ballu.yStep = (-1,-1)
+                    new_ballr = New_BallSprite()
+                    new_ballr.rect.center = [ball.rect.x-20,ball.rect.y+10]
+                    new_ballr.xStep,new_balld.yStep = (-1,1)
+                    balls = pg.sprite.Group(ball,new_ballu,new_balld,new_balll,new_ballr)
+                    sprites.add(balls)
+                if event.key == pg.K_DELETE:
+                    for b in balls:
+                        b.kill()
                 #加進群組
 #update game state
 #redraw
