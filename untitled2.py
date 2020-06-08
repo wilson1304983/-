@@ -1,6 +1,6 @@
 import pygame as pg
 import random
-
+#================ball=================
 class BallSprite(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -32,6 +32,7 @@ class New_BallSprite(pg.sprite.Sprite):
             self.yStep = -self.yStep
         if pg.sprite.spritecollideany(self, vert_walls):
             self.xStep = -self.xStep
+#===============wall===================
 class BlockSprite(pg.sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
@@ -39,14 +40,30 @@ class BlockSprite(pg.sprite.Sprite):
         self.image.fill((255,255,255))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
+#===============player===================
+class PlayerLeft(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pg.image.load('images/block.png')
+        self.rect = self.image.get_rect()
+        self.rect.center = [240,360]
+class PlayerRight(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pg.image.load('images/block.png')
+        self.rect = self.image.get_rect()
+        self.rect.center = [960,360]
+
 pg.init()
 window_size = (1280,720)
 screen = pg.display.set_mode(window_size)
 screen.fill((0,0,0))
 pg.display.set_caption('攻城獅')
+
      
 #球        
 ball = BallSprite()
+
 #牆
 WALL_SIZE = 10
 top_line = BlockSprite(0, 0, window_size[0],WALL_SIZE)
@@ -54,13 +71,18 @@ bottom_line = BlockSprite(0, window_size[1]-WALL_SIZE,window_size[0], WALL_SIZE)
 left_line = BlockSprite(0, 0, WALL_SIZE,window_size[1])
 right_line = BlockSprite(window_size[0]-WALL_SIZE, 0,WALL_SIZE, window_size[1])
 
+#player
+playerleft = PlayerLeft()
+playerright = PlayerRight()
+
 #群組
 horiz_walls = pg.sprite.Group(top_line, bottom_line)
 vert_walls = pg.sprite.Group(left_line, right_line)
 balls = pg.sprite.Group(ball)
-sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls)  
+sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright)  
 done = False
-pause = False   
+pause = False  
+#============主程式===============
 while not done:
 # read new event
     for event in pg.event.get():
@@ -83,6 +105,14 @@ while not done:
                 if event.key == pg.K_DELETE:
                     for b in balls:
                         b.kill()
+            #player移動 但是動不了哭啊
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_UP:
+                    playerl = PlayerLeft()
+                    y -= 10
+
+
+
 #update game state
 #redraw
     screen.fill((0,0,0))
