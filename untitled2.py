@@ -133,10 +133,10 @@ while not done:
                 if event.key == pg.K_SPACE:
                     new_balld = New_BallSprite()
                     new_balld.rect.center = [600,360]
-                    new_balld.xStep,new_balld.yStep = (ball.xStep,-ball.yStep)
+                    new_balld.xStep,new_balld.yStep = (random.randint(-10,10),random.randint(-10,10))
                     new_ballc = New_BallSprite()
                     new_ballc.rect.center = [680,360]
-                    new_ballc.xStep,new_ballc.yStep = (ball.xStep,ball.yStep)
+                    new_ballc.xStep,new_ballc.yStep = (random.randint(-10,10),random.randint(-10,10))
                     balls = pg.sprite.Group(ball,new_balld,new_ballc)
                     sprites.add(balls)
                 #清除球 delete
@@ -214,17 +214,17 @@ while not done:
     balls.update()
     sprites.draw(screen)
     if ball.is_collided_with(doorleft):
-        show_text(530,360,'Right Player Win')
+        show_text(540,360,'Right Player Win')
     if ball.is_collided_with(doorright):
-        show_text(530,360,'Left Player Win')
+        show_text(540,360,'Left Player Win')
     if new_balld.is_collided_with(doorright):
-        show_text(530,360,'Left Player Win')
+        show_text(540,360,'Left Player Win')
     if new_balld.is_collided_with(doorleft):
-        show_text(530,360,'Right Player Win')
+        show_text(540,360,'Right Player Win')
     if new_ballc.is_collided_with(doorright):
-        show_text(530,360,'Left Player Win')
+        show_text(540,360,'Left Player Win')
     if new_ballc.is_collided_with(doorleft):
-        show_text(530,360,'Right Player Win')
+        show_text(540,360,'Right Player Win')
     pg.display.update()
     while pause:
         for event in pg.event.get():
