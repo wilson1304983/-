@@ -6,8 +6,8 @@ class BallSprite(pg.sprite.Sprite):
         super().__init__()
         self.image = pg.image.load('images/smallball.png')
         self.rect = self.image.get_rect()
-        self.rect.center = [640,360] #發球位置 感覺發球要做在迴圈中 按某個鍵後發球 @吳
-        self.xStep, self.yStep = (random.choice([12,11,10,9,8,-8,-9,-10,-11,-12]),random.choice([12,11,10,9,8,-8,-9,-10,-11,-12]))
+        self.rect.center = [640,360] 
+        self.xStep, self.yStep = (random.choice([14,13,12,11,10,-10,-11,-12,-13,-14]),random.choice([14,13,12,11,10,-10,-11,-12,-13,-14]))
     def update(self):
         # move the ball horizontally
         self.rect.x += self.xStep
@@ -113,7 +113,7 @@ horiz_walls = pg.sprite.Group(top_line, bottom_line)
 vert_walls = pg.sprite.Group(left_line, right_line, playerleft, playerright)
 balls = pg.sprite.Group(ball)
 doors = pg.sprite.Group(doorleft,doorright)
-#player = pg.sprite.Group(playerleft, playerleft)
+
 sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)  
 done = False
 pause = False  
@@ -208,9 +208,6 @@ while not done:
     #牆
     screen.blit(bg_image, [0,0])
     #門
-    #screen.blit(rightdoor_image,[-10,0])
-    #screen.blit(leftdoor_image,[12,0])
-    #screen.fill((0,0,0))
     balls.update()
     sprites.draw(screen)
     if ball.is_collided_with(doorleft):
@@ -229,9 +226,6 @@ while not done:
     while pause:
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                done = True
-                pause = False
-            if (event.type == pg.KEYUP and event.key == pg.K_h):
                 done = True
                 pause = False
     
