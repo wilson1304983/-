@@ -7,7 +7,7 @@ class BallSprite(pg.sprite.Sprite):
         self.image = pg.image.load('images/smallball.png')
         self.rect = self.image.get_rect()
         self.rect.center = [640,360] 
-        self.xStep, self.yStep = (random.choice([14,13,12,11,10,-10,-11,-12,-13,-14]),random.choice([14,13,12,11,10,-10,-11,-12,-13,-14]))
+        self.xStep, self.yStep = (random.choice([20,15,13,7,10,-7,-10,-13,-15,-20]),random.choice([20,15,13,7,10,-7,-10,-13,-15,-20]))
     def update(self):
         # move the ball horizontally
         self.rect.x += self.xStep
@@ -15,8 +15,10 @@ class BallSprite(pg.sprite.Sprite):
         self.rect.y += self.yStep
         if pg.sprite.spritecollideany(self, horiz_walls):
             self.yStep = -self.yStep
+            bong.play()
         if pg.sprite.spritecollideany(self, vert_walls):
             self.xStep = -self.xStep
+            bong.play()
     #偵測碰撞
     def is_collided_with(self, sprite):
         return self.rect.colliderect(sprite.rect)
@@ -33,8 +35,10 @@ class New_BallSprite(pg.sprite.Sprite):
         self.rect.y += self.yStep
         if pg.sprite.spritecollideany(self, horiz_walls):
             self.yStep = -self.yStep
+            bong.play()
         if pg.sprite.spritecollideany(self, vert_walls):
             self.xStep = -self.xStep
+            bong.play()
     #偵測碰撞
     def is_collided_with(self, sprite):
         return self.rect.colliderect(sprite.rect)
@@ -87,7 +91,10 @@ screen = pg.display.set_mode(window_size)
 screen.fill((0,0,0))
 pg.display.set_caption('攻城獅')
 
-     
+pg.mixer.init()
+bong =pg.mixer.Sound('images/bong.ogg')
+pg.mixer.music.load('images/bg_music.mp3') 
+pg.mixer.music.play(10,0.0)
 #球        
 ball = BallSprite()
 
@@ -133,10 +140,10 @@ while not done:
                 if event.key == pg.K_SPACE:
                     new_balld = New_BallSprite()
                     new_balld.rect.center = [600,360]
-                    new_balld.xStep,new_balld.yStep = (random.randint(-10,10),random.randint(-10,10))
+                    new_balld.xStep,new_balld.yStep = (random.choice([7,6,5,-5,-6,-7]),random.choice([7,6,5,-5,-6,-7]))
                     new_ballc = New_BallSprite()
                     new_ballc.rect.center = [680,360]
-                    new_ballc.xStep,new_ballc.yStep = (random.randint(-10,10),random.randint(-10,10))
+                    new_ballc.xStep,new_ballc.yStep = (random.choice([7,6,5,-5,-6,-7]),random.choice([7,6,5,-5,-6,-7]))
                     balls = pg.sprite.Group(ball,new_balld,new_ballc)
                     sprites.add(balls)
                 #清除球 delete
@@ -159,50 +166,56 @@ while not done:
                 for b in balls:
                     b.kill()
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_x:
+                    if event.key == pg.K_c:
                         ball = BallSprite()
                         balls = pg.sprite.Group(ball)
                         sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)  
+                        scoreR +=1
             if ball.is_collided_with(doorright):
                 for b in balls:
                     b.kill()
                 if event.type == pg.KEYDOWN:    
-                    if event.key == pg.K_COMMA:
+                    if event.key == pg.K_m:
                         ball = BallSprite()
                         balls = pg.sprite.Group(ball)
-                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)  
+                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)
+                        scoreL +=1
             if new_balld.is_collided_with(doorright):
                 for b in balls:
                     b.kill()
                 if event.type == pg.KEYDOWN:    
-                    if event.key == pg.K_COMMA:
+                    if event.key == pg.K_m:
                         ball = BallSprite()
                         balls = pg.sprite.Group(ball)
-                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)  
+                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)
+                        scoreL +=1
             if new_balld.is_collided_with(doorleft):
                 for b in balls:
                     b.kill()
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_x:
+                    if event.key == pg.K_c:
                         ball = BallSprite()
                         balls = pg.sprite.Group(ball)
-                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)  
+                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)
+                        scoreR +=1
             if new_ballc.is_collided_with(doorright):
                 for b in balls:
                     b.kill()
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_COMMA:
+                    if event.key == pg.K_m:
                         ball = BallSprite()
                         balls = pg.sprite.Group(ball)
-                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)  
+                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)
+                        scoreL +=1
             if new_ballc.is_collided_with(doorleft):
                 for b in balls:
                     b.kill()
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_x:
+                    if event.key == pg.K_c:
                         ball = BallSprite()
                         balls = pg.sprite.Group(ball)
-                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)  
+                        sprites = pg.sprite.OrderedUpdates(horiz_walls,vert_walls, balls, playerleft, playerright, doors)
+                        scoreR +=1
 #update game state
 #redraw
     #牆
@@ -210,18 +223,30 @@ while not done:
     #門
     balls.update()
     sprites.draw(screen)
+    show_text(20,20,str(scoreL))
+    show_text(1250,20,str(scoreR))
     if ball.is_collided_with(doorleft):
-        show_text(540,360,'Right Player Win')
+        show_text(560,360,'Right Player Win')
     if ball.is_collided_with(doorright):
-        show_text(540,360,'Left Player Win')
+        show_text(560,360,'Left Player Win')
     if new_balld.is_collided_with(doorright):
-        show_text(540,360,'Left Player Win')
+        show_text(560,360,'Left Player Win')
     if new_balld.is_collided_with(doorleft):
-        show_text(540,360,'Right Player Win')
+        show_text(560,360,'Right Player Win')
     if new_ballc.is_collided_with(doorright):
-        show_text(540,360,'Left Player Win')
+        show_text(560,360,'Left Player Win')
     if new_ballc.is_collided_with(doorleft):
-        show_text(540,360,'Right Player Win')
+        show_text(560,360,'Right Player Win')
+    if scoreL > 6:
+        for b in balls:
+            b.kill()
+        show_text(560,330,'Game End')
+        show_text(560,360,'Left Player Win this Game!')
+    if scoreR > 6:
+        for b in balls:
+            b.kill()
+        show_text(560,330,'Game End')
+        show_text(560,360,'Right Player Win this Game!')
     pg.display.update()
     while pause:
         for event in pg.event.get():
